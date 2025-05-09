@@ -1,0 +1,47 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.goeasy.goeasyconnect",
+    "sha256_cert_fingerprints":
+    ["34:1D:9D:11:68:E8:CF:55:DE:D0:9F:AE:AF:78:4B:6F:E8:CF:BA:A1:BA:A0:45:51:CD:79:CB:18:A3:58:4E:1B","61:B7:1F:D7:B5:A0:AA:6E:21:95:ED:12:1C:BE:58:3D:B2:67:5C:19:04:D3:3C:0C:C3:7C:7A:50:1D:22:B8:78"]
+  }
+  
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.goeasy.goeasyconnect.qa",
+    "sha256_cert_fingerprints":
+    ["61:B7:1F:D7:B5:A0:AA:6E:21:95:ED:12:1C:BE:58:3D:B2:67:5C:19:04:D3:3C:0C:C3:7C:7A:50:1D:22:B8:78","C0:4B:5C:33:96:91:38:3B:74:44:63:2F:4A:D3:E3:C3:C7:35:BE:A4:F7:19:A9:CD:32:AF:47:90:77:D5:B5:AB"]
+  }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.goeasy.goeasyconnect.dev",
+    "sha256_cert_fingerprints":
+    ["61:B7:1F:D7:B5:A0:AA:6E:21:95:ED:12:1C:BE:58:3D:B2:67:5C:19:04:D3:3C:0C:C3:7C:7A:50:1D:22:B8:78","C0:4B:5C:33:96:91:38:3B:74:44:63:2F:4A:D3:E3:C3:C7:35:BE:A4:F7:19:A9:CD:32:AF:47:90:77:D5:B5:AB"]
+  }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.goeasy.goeasyconnect.test1",
+    "sha256_cert_fingerprints":
+    ["61:B7:1F:D7:B5:A0:AA:6E:21:95:ED:12:1C:BE:58:3D:B2:67:5C:19:04:D3:3C:0C:C3:7C:7A:50:1D:22:B8:78","C0:4B:5C:33:96:91:38:3B:74:44:63:2F:4A:D3:E3:C3:C7:35:BE:A4:F7:19:A9:CD:32:AF:47:90:77:D5:B5:AB"]
+  }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.goeasy.goeasyconnect.test2",
+    "sha256_cert_fingerprints":
+    ["61:B7:1F:D7:B5:A0:AA:6E:21:95:ED:12:1C:BE:58:3D:B2:67:5C:19:04:D3:3C:0C:C3:7C:7A:50:1D:22:B8:78","C0:4B:5C:33:96:91:38:3B:74:44:63:2F:4A:D3:E3:C3:C7:35:BE:A4:F7:19:A9:CD:32:AF:47:90:77:D5:B5:AB"]
+  }
+}
+]
