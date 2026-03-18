@@ -11,50 +11,60 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              project.title,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              project.description,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 20),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: project.tags
-                  .map((tag) => _TagChip(label: tag))
-                  .toList(),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                if (project.githubUrl != null)
-                  _LinkButton(
-                    label: 'GitHub',
-                    icon: Icons.code,
-                    url: project.githubUrl!,
-                  ),
-                if (project.url != null) ...[
-                  const SizedBox(width: 12),
-                  _LinkButton(
-                    label: 'Live',
-                    icon: Icons.open_in_new,
-                    url: project.url!,
-                  ),
-                ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            project.title,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            project.description,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 20),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: project.tags
+                .map((tag) => _TagChip(label: tag))
+                .toList(),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              if (project.githubUrl != null)
+                _LinkButton(
+                  label: 'GitHub',
+                  icon: Icons.code,
+                  url: project.githubUrl!,
+                ),
+              if (project.url != null) ...[
+                const SizedBox(width: 12),
+                _LinkButton(
+                  label: 'Live',
+                  icon: Icons.open_in_new,
+                  url: project.url!,
+                ),
               ],
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }
