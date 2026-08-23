@@ -1,16 +1,29 @@
-# my_app
+# lyndonamat.com
 
-A new Flutter project.
+Personal site — static, built with [Astro](https://astro.build).
 
-## Getting Started
+Previously a Flutter Web app. Flutter renders to a `<canvas>`, so crawlers,
+link-preview bots and résumé parsers fetched the page and got a `<title>` with
+nothing underneath it. This version is plain HTML at build time: ~44 KB total,
+no client framework, ~1 KB of inline JS for the theme toggle and scroll reveals.
 
-This project is a starting point for a Flutter application.
+## Develop
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # -> dist/
+npm run preview
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Content
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Copy, projects and the tech list live in `src/data/site.ts` — edit that, not the
+markup, for routine updates.
+
+## Deploy
+
+Push to `main`. GitHub Actions builds and publishes `dist/` to the `gh-pages`
+branch, which GitHub Pages serves at **lyndonamat.com** (`public/CNAME`).
+
+The previous Flutter source is preserved on the `flutter-web` branch.

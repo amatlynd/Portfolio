@@ -1,0 +1,16 @@
+{
+  "name": "lyndonamat-com",
+  "type": "module",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Personal site for Lyndon Amat — lyndonamat.com",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^5.18.2"
+  }
+}

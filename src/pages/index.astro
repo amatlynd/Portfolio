@@ -1,0 +1,336 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, stack, projects } from '../data/site';
+---
+
+<Base>
+  <!-- ============================================================ HERO -->
+  <section class="hero">
+    <div class="hero__glow" aria-hidden="true"></div>
+    <div class="wrap hero__inner">
+      <p class="status reveal" style="--delay:0ms">
+        <span class="status__dot" aria-hidden="true"></span>{site.status}
+      </p>
+
+      <h1 class="hero__name reveal" style="--delay:60ms">{site.name}</h1>
+
+      <p class="hero__tagline reveal" style="--delay:120ms">
+        I build for mobile and&nbsp;the&nbsp;web.
+      </p>
+
+      <p class="lede hero__lede reveal" style="--delay:180ms">
+        Software developer in {site.location}. Cross-platform apps in Flutter,
+        product on the web with Next.js, React and TypeScript, and the Java services
+        sitting behind them.
+      </p>
+
+      <div class="hero__actions reveal" style="--delay:240ms">
+        <a class="btn btn--primary" href="#work">
+          See the work <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn btn--ghost" href={`mailto:${site.email}`}>Get in touch</a>
+      </div>
+
+      <p class="hero__meta reveal" style="--delay:300ms">
+        <a class="link" href={site.github} rel="me noopener" target="_blank">GitHub</a>
+        <span class="dot" aria-hidden="true">·</span>
+        <a class="link" href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- =========================================================== ABOUT -->
+  <section id="about" class="section section--alt">
+    <div class="wrap">
+      <p class="eyebrow reveal">About</p>
+      <div class="about">
+        <div class="prose reveal" style="--delay:60ms">
+          <h2 class="h2 about__head">The part I care about is where design meets engineering.</h2>
+          <p>
+            An interface is working when it stops feeling like software and starts feeling
+            obvious — when the next tap is where you already expected it to be. Most of
+            that is unglamorous: naming things well, keeping state somewhere sensible,
+            and deleting the screen nobody needed.
+          </p>
+          <p>
+            On mobile that usually means <strong>Flutter</strong> — one codebase that still
+            feels native on both platforms, with Riverpod holding state and go_router
+            handling navigation. On the web it is <strong>Next.js and TypeScript</strong>,
+            reaching for Redux Toolkit only when the state genuinely earns it. Behind both,
+            <strong>Java and Spring</strong>.
+          </p>
+          <p>
+            I write tests, I read other people's code slowly, and I would rather ship
+            something small that works than something large that mostly does.
+          </p>
+        </div>
+
+        <div class="stack reveal" style="--delay:120ms">
+          <h3 class="stack__title">Working with</h3>
+          {stack.map((group) => (
+            <div class="stack__group">
+              <p class="stack__label">{group.group}</p>
+              <ul class="stack__items">
+                {group.items.map((item) => <li class="tag">{item}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ WORK -->
+  <section id="work" class="section">
+    <div class="wrap">
+      <p class="eyebrow reveal">Selected work</p>
+      <h2 class="h2 section__head reveal" style="--delay:60ms">
+        A couple of things worth showing.
+      </h2>
+      <p class="lede section__sub reveal" style="--delay:100ms">
+        Two projects, described honestly — what they do, what they are built out of,
+        and what state they are actually in.
+      </p>
+
+      <ol class="projects">
+        {projects.map((p, i) => (
+          <li class="project reveal" style={`--delay:${80 + i * 90}ms`}>
+            <div class="project__aside">
+              <span class="project__index">{String(i + 1).padStart(2, '0')}</span>
+              <span class="project__year">{p.year}</span>
+            </div>
+
+            <div class="project__body">
+              <div class="project__head">
+                <h3 class="h3">{p.title}</h3>
+                {p.href && (
+                  <a class="project__link" href={p.href} target="_blank" rel="noopener">
+                    {p.hrefLabel ?? 'View'}
+                    <span class="arrow" aria-hidden="true">↗</span>
+                  </a>
+                )}
+                {p.note && <span class="project__note">{p.note}</span>}
+              </div>
+
+              <p class="project__blurb">{p.blurb}</p>
+              {p.body.map((para) => <p class="project__para">{para}</p>)}
+
+              <ul class="project__tags">
+                {p.tags.map((t) => <li class="tag">{t}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========================================================= CONTACT -->
+  <section id="contact" class="section section--alt">
+    <div class="wrap contact">
+      <p class="eyebrow reveal">Contact</p>
+      <h2 class="h2 reveal" style="--delay:60ms">Say hello.</h2>
+      <p class="lede contact__lede reveal" style="--delay:100ms">
+        Best reached by email — I read everything and reply to anything that isn't a
+        template. Happy to talk about a role, a project, or something you're stuck on.
+      </p>
+      <div class="hero__actions reveal" style="--delay:160ms">
+        <a class="btn btn--primary" href={`mailto:${site.email}`}>
+          {site.email} <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="btn btn--ghost" href={site.github} target="_blank" rel="me noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ------------------------------------------------------------------ Hero */
+  .hero { position: relative; overflow: hidden; }
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: min(88svh, 46rem);
+    padding-block: clamp(5rem, 14vh, 9rem) clamp(4rem, 10vh, 7rem);
+    justify-content: center;
+  }
+  .hero__glow {
+    position: absolute;
+    top: -30%; left: 50%;
+    width: min(74rem, 130%); aspect-ratio: 1.6;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, var(--accent-wash), transparent 62%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .status {
+    display: inline-flex; align-items: center; gap: .55rem;
+    font-family: var(--font-mono);
+    font-size: .76rem; letter-spacing: .02em;
+    color: var(--accent);
+    background: var(--accent-wash);
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    border-radius: 100px;
+    padding: .38rem .85rem .38rem .7rem;
+  }
+  .status__dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+    animation: pulse 2.6s ease-out infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+    70%  { box-shadow: 0 0 0 7px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
+  .hero__name {
+    margin-top: 1.6rem;
+    font-size: clamp(2.9rem, 9.5vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+  .hero__tagline {
+    margin-top: .3rem;
+    font-size: clamp(1.5rem, 5.2vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+  }
+  .hero__lede { margin-top: 1.6rem; max-width: 34rem; }
+
+  .hero__actions {
+    display: flex; flex-wrap: wrap; gap: .75rem;
+    margin-top: 2.4rem;
+  }
+
+  .hero__meta {
+    margin-top: 2rem;
+    font-size: .88rem;
+    color: var(--text-faint);
+    display: flex; flex-wrap: wrap; align-items: center; gap: .6rem;
+  }
+  .dot { color: var(--border-strong); }
+
+  /* ----------------------------------------------------------------- About */
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    align-items: start;
+  }
+  @media (max-width: 52rem) { .about { grid-template-columns: 1fr; } }
+
+  .about__head { margin-bottom: 1.5rem; max-width: 22ch; }
+
+  .stack {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow);
+    position: sticky; top: 6rem;
+  }
+  @media (max-width: 52rem) { .stack { position: static; } }
+
+  .stack__title {
+    font-size: .95rem; font-weight: 650;
+    margin-bottom: 1.35rem;
+    padding-bottom: .85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .stack__group + .stack__group { margin-top: 1.35rem; }
+  .stack__label {
+    font-family: var(--font-mono);
+    font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: .6rem;
+  }
+  .stack__items {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-wrap: wrap; gap: .4rem;
+  }
+
+  /* ------------------------------------------------------------------ Work */
+  .section__head { max-width: 18ch; }
+  .section__sub { margin-top: .9rem; }
+
+  .projects {
+    list-style: none; padding: 0;
+    margin: clamp(2.75rem, 6vw, 4rem) 0 0;
+    display: grid; gap: 1.25rem;
+  }
+
+  .project {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    gap: 0 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(1.6rem, 3.5vw, 2.4rem);
+    box-shadow: var(--shadow);
+    transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease, border-color .35s ease;
+  }
+  .project:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: var(--border-strong);
+  }
+  @media (max-width: 44rem) {
+    .project { grid-template-columns: 1fr; gap: 1rem; }
+  }
+
+  .project__aside {
+    display: flex; flex-direction: column; gap: .3rem;
+    font-family: var(--font-mono); font-size: .74rem;
+    padding-top: .3rem;
+  }
+  @media (max-width: 44rem) {
+    .project__aside { flex-direction: row; align-items: center; gap: .75rem; padding-top: 0; }
+  }
+  .project__index { color: var(--accent); font-weight: 500; font-size: .9rem; }
+  .project__year  { color: var(--text-faint); }
+
+  .project__head {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .9rem;
+    margin-bottom: .75rem;
+  }
+  .project__link {
+    font-family: var(--font-mono); font-size: .76rem;
+    color: var(--accent); text-decoration: none;
+    display: inline-flex; align-items: center; gap: .25rem;
+  }
+  .project__link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .project__link .arrow { transition: transform .25s cubic-bezier(.22,1,.36,1); }
+  .project__link:hover .arrow { transform: translate(2px, -2px); }
+
+  .project__note {
+    font-family: var(--font-mono); font-size: .7rem;
+    color: var(--text-faint);
+    border: 1px dashed var(--border-strong);
+    border-radius: 100px; padding: .15rem .6rem;
+  }
+
+  .project__blurb {
+    font-size: 1.02rem; font-weight: 550; color: var(--text);
+    max-width: 46rem; text-wrap: pretty;
+  }
+  .project__para {
+    margin-top: .9rem; color: var(--text-dim);
+    font-size: .95rem; max-width: 46rem; text-wrap: pretty;
+  }
+
+  .project__tags {
+    list-style: none; padding: 0;
+    margin: 1.4rem 0 0;
+    display: flex; flex-wrap: wrap; gap: .4rem;
+  }
+
+  /* --------------------------------------------------------------- Contact */
+  .contact__lede { margin-top: 1rem; }
+</style>
