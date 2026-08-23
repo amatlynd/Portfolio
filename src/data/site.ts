@@ -5,6 +5,7 @@ export const site = {
   url: 'https://lyndonamat.com',
   email: 'lyndon.amat@gmail.com',
   github: 'https://github.com/amatlynd',
+  linkedin: 'https://www.linkedin.com/in/lyndon-amat/',
   status: 'Open to opportunities',
   description:
     'Lyndon Amat is a software developer in Toronto building cross-platform mobile apps with Flutter and product on the web with Next.js, React and TypeScript.',
