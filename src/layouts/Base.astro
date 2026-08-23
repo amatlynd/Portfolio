@@ -58,8 +58,14 @@ const siteLd = {
   <meta name="theme-color" content="#F5F3EE" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#080D1A" media="(prefers-color-scheme: dark)" />
 
+  {/* favicon.ico first: it is the file Google's favicon fetcher falls back to at
+      the site root, and the old Flutter build's Flutter-logo favicon.png is what
+      it had cached. SVG for modern browsers, 96px PNG as the raster fallback. */}
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 
   {/* Self-hosted, same-origin. Inter carries the headline, so it is preloaded. */}
   <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-wght-normal.woff2" crossorigin />
