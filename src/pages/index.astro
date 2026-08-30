@@ -760,6 +760,54 @@ const portfolio = projects.find(p => p.slug === 'portfolio')!;
 }
 .ab-stack-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 
+/* ── MOBILE ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Top bar — compact */
+  .bar { padding: 0 12px; gap: 8px; }
+  .bar-hint { display: none; }
+  .wordmark { font-size: var(--text-sm); }
+  /* Icon-only switcher: zero font-size hides the text label */
+  .sw-btn { padding: 5px 10px; font-size: 0; gap: 0; }
+  .sw-btn svg { width: 16px; height: 16px; }
+
+  /* Canvas view — pan canvas; hero is visible at top-left */
+  .hero-block { left: 60px; top: 64px; max-width: min(340px, calc(100vw - 80px)); }
+  .hero-name { font-size: var(--text-2xl); }
+  .hero-tagline { font-size: var(--text-lg); }
+  .hero-lede { font-size: 15px; }
+
+  /* Hide minimap — touch scroll is its own spatial indicator */
+  #minimap { display: none; }
+
+  /* Legend — full width, tags scroll horizontally */
+  #legend {
+    bottom: 0; left: 0; right: 0; max-width: 100%;
+    border-radius: 0; border-left: none; border-right: none; border-bottom: none;
+    padding: 10px 14px 14px;
+  }
+  .leg-tags { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; }
+  .leg-tag { flex-shrink: 0; }
+
+  /* Index + About views — tighter padding */
+  #view-index { padding: 24px 16px 120px; }
+  #view-about { padding: 36px 16px 120px; }
+  .ix-eyebrow, .ab-eyebrow { font-size: var(--text-2xs); }
+  .ix-h1, .ab-h1 { font-size: var(--text-xl); margin-bottom: 24px; }
+  .ab-prose { font-size: 16px; }
+}
+
+@media (max-width: 400px) {
+  .hero-name { font-size: var(--text-xl); }
+  .hero-tagline { font-size: var(--text-md); }
+  .hero-block { left: 56px; top: 56px; }
+}
+
+/* ── TABLET ───────────────────────────────────────────────── */
+@media (max-width: 900px) and (min-width: 641px) {
+  .bar-hint { display: none; }
+  #minimap { display: none; }
+}
+
 </style>
 
 <!-- ── SCRIPT ─────────────────────────────────────────────────────────── -->

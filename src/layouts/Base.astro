@@ -1,11 +1,13 @@
 ---
 import '../styles/global.css';
-import { site } from '../data/site';
+import { site, stack, projects } from '../data/site';
 
 interface Props { title?: string; description?: string; }
 const { title = `${site.name} — ${site.role}`, description = site.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
 const ogImage = new URL('/og.png', Astro.site ?? site.url).href;
+
+const allTech = stack.flatMap(g => g.items);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -18,7 +20,13 @@ const jsonLd = {
   sameAs: [site.github, site.linkedin],
   image: ogImage,
   description: site.description,
-  knowsAbout: ['Flutter', 'Dart', 'Next.js', 'React', 'TypeScript', 'Java', 'Spring'],
+  knowsAbout: allTech,
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: site.role,
+    occupationLocation: { '@type': 'City', name: 'Toronto' },
+    skills: allTech.join(', '),
+  },
 };
 
 const siteLd = {
@@ -29,6 +37,19 @@ const siteLd = {
   inLanguage: 'en',
   author: { '@type': 'Person', name: site.name, url: site.url },
 };
+
+const projectSchemas = projects.map(p => ({
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: p.title,
+  description: p.blurb,
+  abstract: p.body[0],
+  author: { '@type': 'Person', name: site.name, url: site.url },
+  dateCreated: p.year,
+  keywords: p.tags.join(', '),
+  applicationCategory: 'DeveloperApplication',
+  ...(p.href ? { url: p.href } : {}),
+}));
 ---
 <!doctype html>
 <html lang="en">
@@ -54,6 +75,9 @@ const siteLd = {
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
+  <meta name="twitter:image:alt" content={`${site.name} — ${site.role}`} />
+
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
 
   <!-- Cartograph palette colours match the new design system -->
   <meta name="theme-color" content="#F0EBE0" media="(prefers-color-scheme: light)" />
@@ -75,6 +99,7 @@ const siteLd = {
 
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(siteLd)} />
+  {projectSchemas.map(s => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
 
   <!-- Apply persisted theme before first paint — prevents flash. -->
   <script is:inline>
