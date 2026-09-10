@@ -3,8 +3,8 @@
   "short_name": "Lyndon Amat",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#080D1A",
-  "theme_color": "#3D9970",
+  "background_color": "#191D27",
+  "theme_color": "#E8722A",
   "icons": [
     { "src": "/favicon-96x96.png", "sizes": "96x96", "type": "image/png" },
     { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }

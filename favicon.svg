@@ -1,4 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#3D9970"/>
-  <path d="M22 16h7.5v25.5H45V48H22z" fill="#fff"/>
+  <rect width="64" height="64" rx="14" fill="#191D27"/>
+  <!-- registration bracket marks -->
+  <path d="M8 8h8v2H10v8H8z" fill="#3C4058"/>
+  <path d="M56 8h-8v2h6v8h2z" fill="#3C4058"/>
+  <path d="M8 56h8v-2H10v-8H8z" fill="#3C4058"/>
+  <path d="M56 56h-8v-2h6v-8h2z" fill="#3C4058"/>
+  <!-- L letterform in signal orange -->
+  <path d="M20 14h8v28h16v8H20z" fill="#E8722A"/>
 </svg>
