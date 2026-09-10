@@ -413,7 +413,8 @@ const portfolio = projects.find(p => p.slug === 'portfolio')!;
 
 .ground {
   position: relative;
-  width: max(100%, 1440px);
+  /* 48px gutter + 30 cols × 48px + 48px right margin = 1536px */
+  width: max(100%, 1536px);
   min-height: max(calc(100vh - var(--top-bar)), 960px);
   background-color: var(--bg-canvas);
   background-image:
@@ -760,52 +761,76 @@ const portfolio = projects.find(p => p.slug === 'portfolio')!;
 }
 .ab-stack-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 
-/* ── MOBILE ──────────────────────────────────────────────── */
-@media (max-width: 640px) {
-  /* Top bar — compact */
-  .bar { padding: 0 12px; gap: 8px; }
+/* ── TABLET + MOBILE ─────────────────────────────────────── */
+@media (max-width: 900px) {
   .bar-hint { display: none; }
+  #minimap { display: none; }
+}
+
+/* ── MOBILE — stacked layout ─────────────────────────────── */
+@media (max-width: 767px) {
+  /* Top bar — compact, icon-only switcher */
+  .bar { padding: 0 12px; gap: 8px; }
   .wordmark { font-size: var(--text-sm); }
-  /* Icon-only switcher: zero font-size hides the text label */
+  /* Hide switcher labels, keep icons */
   .sw-btn { padding: 5px 10px; font-size: 0; gap: 0; }
   .sw-btn svg { width: 16px; height: 16px; }
 
-  /* Canvas view — pan canvas; hero is visible at top-left */
-  .hero-block { left: 60px; top: 64px; max-width: min(340px, calc(100vw - 80px)); }
+  /* Canvas ground — reflow to vertical column */
+  .ground {
+    width: 100%;
+    min-height: 0;
+    /* remove the coordinate grid on mobile */
+    background-image: none;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px 180px;
+    gap: 20px;
+  }
+  /* Hide coordinate axes */
+  .axis-x, .axis-y { display: none; }
+
+  /* All absolute-positioned canvas elements become static */
+  .hero-block { position: static; max-width: 100%; }
+  .pin { position: static; width: 100%; }
+  .survey { position: static; width: 100%; }
+  .cnote { position: static; width: 100%; }
+
+  /* Hero text — scale down */
   .hero-name { font-size: var(--text-2xl); }
-  .hero-tagline { font-size: var(--text-lg); }
-  .hero-lede { font-size: 15px; }
+  .hero-tagline { font-size: var(--text-xl); }
+  .hero-lede { font-size: 15px; max-width: 100%; }
 
-  /* Hide minimap — touch scroll is its own spatial indicator */
-  #minimap { display: none; }
-
-  /* Legend — full width, tags scroll horizontally */
+  /* Legend — full-width bar pinned to bottom, tags scroll horizontally */
   #legend {
     bottom: 0; left: 0; right: 0; max-width: 100%;
     border-radius: 0; border-left: none; border-right: none; border-bottom: none;
-    padding: 10px 14px 14px;
+    padding: 10px 14px env(safe-area-inset-bottom, 14px);
   }
-  .leg-tags { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; }
+  .leg-tags { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
   .leg-tag { flex-shrink: 0; }
+  .leg-clear { margin-top: 6px; }
 
-  /* Index + About views — tighter padding */
-  #view-index { padding: 24px 16px 120px; }
-  #view-about { padding: 36px 16px 120px; }
-  .ix-eyebrow, .ab-eyebrow { font-size: var(--text-2xs); }
-  .ix-h1, .ab-h1 { font-size: var(--text-xl); margin-bottom: 24px; }
+  /* Index view */
+  #view-index { padding: 24px 16px 100px; }
+  .ix-eyebrow { font-size: var(--text-2xs); }
+  .ix-h1 { font-size: var(--text-xl); margin-bottom: 20px; }
+  /* Table scrolls horizontally */
+  .ix-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .ix-table { min-width: 560px; }
+
+  /* About view */
+  #view-about { padding: 36px 16px 100px; }
+  .ab-eyebrow { font-size: var(--text-2xs); }
+  .ab-h1 { font-size: var(--text-xl); margin-bottom: 20px; }
   .ab-prose { font-size: 16px; }
+  .ab-stack-grid { grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; }
 }
 
 @media (max-width: 400px) {
   .hero-name { font-size: var(--text-xl); }
-  .hero-tagline { font-size: var(--text-md); }
-  .hero-block { left: 56px; top: 56px; }
-}
-
-/* ── TABLET ───────────────────────────────────────────────── */
-@media (max-width: 900px) and (min-width: 641px) {
-  .bar-hint { display: none; }
-  #minimap { display: none; }
+  .hero-tagline { font-size: var(--text-lg); }
+  .ab-stack-grid { grid-template-columns: 1fr; }
 }
 
 </style>
