@@ -41,13 +41,14 @@ const siteLd = {
 const projectSchemas = projects.map(p => ({
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: p.title,
+  name: p.slug === 'portfolio' ? 'lyndonamat.com' : p.title,
   description: p.blurb,
   abstract: p.body[0],
   author: { '@type': 'Person', name: site.name, url: site.url },
   dateCreated: p.year,
   keywords: p.tags.join(', '),
   applicationCategory: 'DeveloperApplication',
+  ...(p.slug === 'okonomi' ? { operatingSystem: 'Android, iOS' } : {}),
   ...(p.href ? { url: p.href } : {}),
 }));
 ---
@@ -60,6 +61,7 @@ const projectSchemas = projects.map(p => ({
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
   <meta name="author" content={site.name} />
+  <meta name="keywords" content={`Flutter, Dart, mobile developer, software developer Toronto, Next.js, React, TypeScript, Java, Spring, ${allTech.join(', ')}`} />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content={site.name} />
@@ -89,13 +91,20 @@ const projectSchemas = projects.map(p => ({
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
 
-  <!-- Space Grotesk (display + UI) and Newsreader (long-form prose) -->
+  <!-- Space Grotesk (display + UI) and Newsreader (long-form prose) — loaded async to avoid render-blocking -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    rel="stylesheet"
+  <link rel="preload" as="style"
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap"
   />
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap"
+  />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap"
+    />
+  </noscript>
 
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <script type="application/ld+json" set:html={JSON.stringify(siteLd)} />
