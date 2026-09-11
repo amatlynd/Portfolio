@@ -5,6 +5,14 @@ dist/
 # dependencies
 node_modules/
 
+# playwright / lighthouse output
+test-results/
+playwright-report/
+.lighthouseci/
+
+# local tooling
+.claude/
+
 # environment
 .env
 .env.production
