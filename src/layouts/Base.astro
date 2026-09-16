@@ -9,9 +9,15 @@ const ogImage = new URL('/og.png', Astro.site ?? site.url).href;
 
 const allTech = stack.flatMap(g => g.items);
 
+// Stable @id URIs let Google's Knowledge Graph link this entity
+// to the same person on LinkedIn, GitHub, and other platforms.
+const personId = `${site.url}/#person`;
+const websiteId = `${site.url}/#website`;
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': personId,
   name: site.name,
   url: site.url,
   email: `mailto:${site.email}`,
@@ -32,19 +38,22 @@ const jsonLd = {
 const siteLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
+  '@id': websiteId,
   name: site.name,
   url: site.url,
   inLanguage: 'en',
-  author: { '@type': 'Person', name: site.name, url: site.url },
+  author: { '@type': 'Person', '@id': personId, name: site.name, url: site.url },
+  about: { '@id': personId },
 };
 
 const projectSchemas = projects.map(p => ({
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
+  '@id': `${site.url}/#${p.slug}`,
   name: p.slug === 'portfolio' ? 'lyndonamat.com' : p.title,
   description: p.blurb,
   abstract: p.body[0],
-  author: { '@type': 'Person', name: site.name, url: site.url },
+  author: { '@type': 'Person', '@id': personId, name: site.name, url: site.url },
   dateCreated: p.year,
   keywords: p.tags.join(', '),
   applicationCategory: 'DeveloperApplication',
