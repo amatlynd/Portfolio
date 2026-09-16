@@ -221,7 +221,7 @@ const portfolio = projects.find(p => p.slug === 'portfolio')!;
 </main>
 
 <!-- ── INDEX VIEW ─────────────────────────────────────────────────────── -->
-<section id="view-index" hidden tabindex="-1" aria-label="Projects index">
+<section id="view-index" tabindex="-1" aria-label="Projects index">
   <p class="ix-eyebrow">Plot 02 of 02 · Index view</p>
   <h2 class="ix-h1">Two projects.<br />Described honestly.</h2>
 
@@ -260,7 +260,7 @@ const portfolio = projects.find(p => p.slug === 'portfolio')!;
 </section>
 
 <!-- ── ABOUT VIEW ─────────────────────────────────────────────────────── -->
-<section id="view-about" hidden tabindex="-1" aria-label="About">
+<section id="view-about" tabindex="-1" aria-label="About">
   <p class="ab-eyebrow">About</p>
   <h2 class="ab-h1">The part I care about is where design meets engineering.</h2>
   <div class="ab-prose">
@@ -695,10 +695,18 @@ const portfolio = projects.find(p => p.slug === 'portfolio')!;
 .mm-you { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--text-faint); letter-spacing: .06em; margin-top: 5px; text-align: center; }
 
 /* ── INDEX VIEW ───────────────────────────────────────── */
+/* visibility:hidden (not display:none) keeps content readable by crawlers */
 #view-index {
   position: fixed; inset: var(--top-bar) 0 0 0;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 48px 32px 100px;
+  visibility: hidden;
+  pointer-events: none;
+}
+#view-index.view-active {
+  overflow-y: auto;
+  visibility: visible;
+  pointer-events: auto;
 }
 .ix-inner { max-width: 900px; margin: 0 auto; }
 .ix-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: var(--text-xs); color: var(--text-faint); letter-spacing: var(--track-label); text-transform: uppercase; margin-bottom: 10px; }
@@ -727,8 +735,15 @@ const portfolio = projects.find(p => p.slug === 'portfolio')!;
 /* ── ABOUT VIEW ───────────────────────────────────────── */
 #view-about {
   position: fixed; inset: var(--top-bar) 0 0 0;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 60px 32px 100px;
+  visibility: hidden;
+  pointer-events: none;
+}
+#view-about.view-active {
+  overflow-y: auto;
+  visibility: visible;
+  pointer-events: auto;
 }
 .ab-inner { max-width: 820px; margin: 0 auto; }
 .ab-eyebrow {
@@ -892,7 +907,14 @@ const portfolio = projects.find(p => p.slug === 'portfolio')!;
       var on = (k === v);
       o.btn.classList.toggle('on', on);
       o.btn.setAttribute('aria-selected', on ? 'true' : 'false');
-      o.el.hidden = !on;
+      if (k === 'canvas') {
+        // canvas uses hidden attribute — display:none is fine for crawlers
+        // since the hero content is already the primary visible content
+        o.el.hidden = !on;
+      } else {
+        // index + about use visibility:hidden so crawlers read the full text
+        o.el.classList.toggle('view-active', on);
+      }
     });
     legend.hidden  = (v !== 'canvas');
     minimap.hidden = (v !== 'canvas');
