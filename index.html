@@ -52,10 +52,15 @@ I write tests, I read other people's code slowly, and I would rather ship
   var iSun = document.getElementById('ico-sun');
   var iMoon = document.getElementById('ico-moon');
 
+  // SVGElement has no `hidden` IDL property, so toggle the attribute directly.
+  function setIcons(eff) {
+    iSun.toggleAttribute('hidden', eff === 'light');
+    iMoon.toggleAttribute('hidden', eff === 'dark');
+  }
+
   function applyTheme(t) {
     R.setAttribute('data-theme', t);
-    iSun.hidden  = (t === 'light');
-    iMoon.hidden = (t === 'dark');
+    setIcons(t);
     tBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     try { localStorage.setItem('theme', t); } catch(e) {}
   }
@@ -64,9 +69,7 @@ I write tests, I read other people's code slowly, and I would rather ship
   (function syncIcons() {
     var cur = R.getAttribute('data-theme');
     var sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    var eff = cur || sys;
-    iSun.hidden  = (eff === 'light');
-    iMoon.hidden = (eff === 'dark');
+    setIcons(cur || sys);
   })();
 
   tBtn.addEventListener('click', function () {
