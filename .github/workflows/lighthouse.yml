@@ -1,0 +1,77 @@
+name: Lighthouse CI
+
+on:
+  schedule:
+    - cron: '0 13 * * *' # daily, 9am Toronto (EDT)
+  workflow_run:
+    workflows: ['Deploy to GitHub Pages']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pages: read
+
+concurrency:
+  group: lighthouse
+  cancel-in-progress: false
+
+jobs:
+  lighthouse:
+    # After a deploy, only audit if the deploy itself succeeded (PR runs never deploy).
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event != 'pull_request')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Wait for GitHub Pages to finish publishing
+        if: github.event_name == 'workflow_run'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sleep 30
+          for i in $(seq 1 30); do
+            status=$(gh api "repos/${{ github.repository }}/pages/builds/latest" --jq .status || echo unknown)
+            echo "Pages build status: $status"
+            [ "$status" = "built" ] && exit 0
+            sleep 10
+          done
+          echo "Pages build did not report 'built' in time; auditing anyway."
+
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@0.14.0 autorun
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          retention-days: 30
+
+      - name: Open or update alert issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          title="Lighthouse regression on lyndonamat.com"
+          body="Lighthouse CI assertions failed (trigger: \`${{ github.event_name }}\`). Reports and details: $RUN_URL"
+          gh label create lighthouse --color D93F0B --description "Lighthouse CI alerts" --force
+          existing=$(gh issue list --state open --label lighthouse --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh issue create --title "$title" --body "$body" --label lighthouse
+          fi
